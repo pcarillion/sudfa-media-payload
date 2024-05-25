@@ -8,6 +8,9 @@ import { fileURLToPath } from 'url'
 
 import { Users } from './collections/Users'
 import { Articles } from './collections/Articles'
+import { Medias } from './collections/Medias'
+import { Categories } from './collections/Categories'
+import { Auteurs } from './collections/Auteurs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -16,7 +19,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Articles],
+  collections: [Users, Articles, Medias, Categories, Auteurs],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
   secret: process.env.PAYLOAD_SECRET || '',
