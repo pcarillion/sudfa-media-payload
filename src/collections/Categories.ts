@@ -12,9 +12,21 @@ export const Categories: CollectionConfig = {
       label: 'Nom',
     },
     {
+      name: 'order',
+      type: 'number',
+      label: 'ordre dans le menu',
+      unique: true,
+      required: true,
+    },
+    {
       name: 'description',
       type: 'textarea',
       label: 'Description',
     },
   ],
+  access: {
+    read: () => {
+      return true
+    },
+  },
 }

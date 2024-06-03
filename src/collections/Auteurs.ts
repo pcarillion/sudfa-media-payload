@@ -13,6 +13,19 @@ export const Auteurs: CollectionConfig = {
       required: true,
     },
     {
+      name: 'slug',
+      type: 'text',
+      label: 'Slug (url)',
+      required: true,
+      unique: true,
+      validate: (val) => {
+        if (val?.includes(' ')) {
+          return "Pas d'espace dans le slug, suivre le modèle 'titre-de-l-article'"
+        }
+        return true
+      },
+    },
+    {
       name: 'description',
       type: 'textarea',
       label: 'Description',
@@ -25,4 +38,9 @@ export const Auteurs: CollectionConfig = {
       // required: true,
     },
   ],
+  access: {
+    read: () => {
+      return true
+    },
+  },
 }

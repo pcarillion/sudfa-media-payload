@@ -11,6 +11,7 @@ import { Articles } from './collections/Articles'
 import { Medias } from './collections/Medias'
 import { Categories } from './collections/Categories'
 import { Auteurs } from './collections/Auteurs'
+import { Presentation } from './collections/Presentation'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -19,7 +20,7 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Articles, Medias, Categories, Auteurs],
+  collections: [Users, Articles, Medias, Categories, Auteurs, Presentation],
   editor: lexicalEditor({}),
   // plugins: [payloadCloud()], // TODO: Re-enable when cloud supports 3.0
   secret: process.env.PAYLOAD_SECRET || '',

@@ -1,6 +1,8 @@
 import type { CollectionConfig } from 'payload/types'
 // import moment from 'moment'
 
+import { HTMLConverterFeature, lexicalEditor, lexicalHTML } from '@payloadcms/richtext-lexical'
+
 export const Articles: CollectionConfig = {
   slug: 'articles',
   admin: {
@@ -9,11 +11,30 @@ export const Articles: CollectionConfig = {
   // auth: true,
   fields: [
     {
+      name: 'Published',
+      type: 'checkbox',
+      label: 'Publier',
+      defaultValue: false,
+    },
+    {
       name: 'titre',
       type: 'text',
       label: 'Titre',
       required: true,
       unique: true,
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      label: 'Slug (url)',
+      required: true,
+      unique: true,
+      validate: (val) => {
+        if (val?.includes(' ')) {
+          return "Pas d'espace dans le slug, suivre le modèle 'titre-de-l-article'"
+        }
+        return true
+      },
     },
     {
       name: 'date',
@@ -35,15 +56,16 @@ export const Articles: CollectionConfig = {
       required: true,
     },
     {
-      name: 'author',
+      name: 'authors',
       type: 'relationship',
       relationTo: 'auteurs',
       required: true,
+      hasMany: true,
     },
     {
       name: 'presentation',
-      type: 'richText',
-      label: 'Présentation',
+      type: 'textarea',
+      label: 'Chapeau',
       required: true,
     },
     {
@@ -53,9 +75,18 @@ export const Articles: CollectionConfig = {
       required: true,
     },
     {
-      name: 'article',
+      name: 'content',
       type: 'richText',
-      label: 'Article',
+      label: "Contenu de l'article",
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [...defaultFeatures, HTMLConverterFeature({})],
+      }),
     },
+    lexicalHTML('content', { name: 'content_html' }),
   ],
+  access: {
+    read: () => {
+      return true
+    },
+  },
 }

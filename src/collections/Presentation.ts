@@ -1,12 +1,17 @@
 import type { CollectionConfig } from 'payload/types'
+import { HTMLConverterFeature, lexicalEditor, lexicalHTML } from '@payloadcms/richtext-lexical'
 
 export const Presentation: CollectionConfig = {
-  slug: 'users',
+  slug: 'presentation',
+  access: {
+    read: () => {
+      return true
+    },
+  },
   admin: {
     useAsTitle: 'title',
     description: 'Une seule entrée, ne pas modifier, ne pas supprimer',
   },
-  auth: true,
   fields: [
     {
       name: 'title',
@@ -19,13 +24,22 @@ export const Presentation: CollectionConfig = {
       type: 'richText',
       label: 'Version courte',
       required: true,
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [...defaultFeatures, HTMLConverterFeature({})],
+      }),
     },
+    lexicalHTML('shortVersion', { name: 'shortVersion_html' }),
+
     {
       name: 'longVersion',
       type: 'richText',
       label: 'versionLongue',
       required: true,
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [...defaultFeatures, HTMLConverterFeature({})],
+      }),
     },
+    lexicalHTML('longVersion', { name: 'longVersion_html' }),
     {
       name: 'logo',
       type: 'upload',
